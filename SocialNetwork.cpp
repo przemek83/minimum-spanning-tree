@@ -35,6 +35,9 @@ SocialNetwork::getMSTAndWeight()
     if (size <= 0)
         return {foundNodes, 0U};
 
+    if (size == 1)
+        return {{nodeIdToName(0U)}, weights_[0]};
+
     std::vector<unsigned int> minEdges(size, INT_MAX);
     minEdges[0] = 0;
     std::vector<bool> selected(size, false);
