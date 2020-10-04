@@ -33,7 +33,7 @@ SocialNetwork::getMSTAndWeight() const
 {
     const uint64_t size{graph_.size()};
     std::unordered_set<std::string> nodes{};
-    if (size <= 0)
+    if (size == 0)
         return {nodes, 0U};
 
     if (size == 1)
