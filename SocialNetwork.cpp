@@ -1,7 +1,7 @@
 #include "SocialNetwork.h"
 
-#include <limits.h>
 #include <algorithm>
+#include <climits>
 
 SocialNetwork::SocialNetwork(unsigned int peopleCount)
     : graph_(peopleCount), weights_(peopleCount)
@@ -31,7 +31,7 @@ void SocialNetwork::addConnection(const std::string& from,
 std::pair<std::unordered_set<std::string>, unsigned int>
 SocialNetwork::getMSTAndWeight() const
 {
-    const unsigned long size{graph_.size()};
+    const uint64_t size{graph_.size()};
     std::unordered_set<std::string> nodes{};
     if (size <= 0)
         return {nodes, 0U};
@@ -43,11 +43,11 @@ SocialNetwork::getMSTAndWeight() const
     minEdges[0] = 0;
     std::vector<bool> selected(size, false);
 
-    for (unsigned long i = 0; i < size; ++i)
+    for (uint64_t i = 0; i < size; ++i)
     {
         const unsigned int u{getMinEdgeIndex(minEdges, selected)};
         selected[u] = true;
-        for (unsigned long v = 0; v < size; ++v)
+        for (uint64_t v = 0; v < size; ++v)
             if (graph_[u][v] != 0 && !selected[v] && graph_[u][v] < minEdges[v])
             {
                 nodes.insert(nodeIdToName(u));
@@ -59,10 +59,10 @@ SocialNetwork::getMSTAndWeight() const
 
 unsigned int SocialNetwork::getMinEdgeIndex(
     const std::vector<unsigned int>& minEdges,
-    const std::vector<bool>& selected) const
+    const std::vector<bool>& selected)
 {
     unsigned int minEdge{INT_MAX};
-    int minEdgeIndex{-1};
+    unsigned int minEdgeIndex{0};
 
     for (unsigned int i = 0; i < selected.size(); ++i)
         if (!selected[i] && minEdges[i] < minEdge)

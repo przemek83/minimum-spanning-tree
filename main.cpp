@@ -40,7 +40,7 @@
 
 int main()
 {
-    unsigned int peopleCount;
+    unsigned int peopleCount{0};
     std::cin >> peopleCount;
     SocialNetwork socialNetwork(peopleCount);
     for (unsigned int i = 0; i < peopleCount; ++i)

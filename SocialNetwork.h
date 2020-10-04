@@ -20,8 +20,9 @@ public:
         const;
 
 private:
-    unsigned int getMinEdgeIndex(const std::vector<unsigned int>& minEdges,
-                                 const std::vector<bool>& selected) const;
+    static unsigned int getMinEdgeIndex(
+        const std::vector<unsigned int>& minEdges,
+        const std::vector<bool>& selected);
 
     std::string nodeIdToName(unsigned int nodeId) const;
 
