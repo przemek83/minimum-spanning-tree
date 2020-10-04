@@ -34,70 +34,21 @@
 // Robert
 // 13
 
-#include <limits.h>
-#include <algorithm>
-#include <iomanip>
 #include <iostream>
-#include <unordered_map>
-#include <unordered_set>
-#include <vector>
 
-int getMinEdgeIndex(const std::vector<int>& minEdges,
-                    const std::vector<bool>& selected)
-{
-    int minEdge{INT_MAX};
-    int minEdgeIndex{-1};
-
-    for (unsigned int i = 0; i < selected.size(); ++i)
-        if (!selected[i] && minEdges[i] < minEdge)
-        {
-            minEdge = minEdges[i];
-            minEdgeIndex = i;
-        }
-    return minEdgeIndex;
-}
-
-std::unordered_set<int> findMSTNodes(const std::vector<std::vector<int>>& graph)
-{
-    const unsigned long size{graph.size()};
-    std::unordered_set<int> foundNodes;
-
-    std::vector<int> minEdges(size, INT_MAX);
-    minEdges[0] = 0;
-    std::vector<bool> selected(size, false);
-
-    for (unsigned long i = 0; i < size; ++i)
-    {
-        const int u{getMinEdgeIndex(minEdges, selected)};
-        selected[u] = true;
-        for (unsigned long v = 0; v < size; ++v)
-            if (graph[u][v] != 0 && !selected[v] && graph[u][v] < minEdges[v])
-            {
-                foundNodes.insert(u);
-                minEdges[v] = graph[u][v];
-            }
-    }
-
-    return foundNodes;
-}
+#include "SocialNetwork.h"
 
 int main()
 {
-    std::unordered_map<std::string, int> nodeNamesMap{};
-
-    unsigned int usersCount;
-    std::cin >> usersCount;
-    std::vector<std::vector<int>> graph(usersCount);
-    for (auto& elem : graph)
-        elem.resize(usersCount);
-    std::vector<int> weights(usersCount);
-    for (unsigned int i = 0; i < usersCount; ++i)
+    unsigned int peopleCount;
+    std::cin >> peopleCount;
+    SocialNetwork socialNetwork(peopleCount);
+    for (unsigned int i = 0; i < peopleCount; ++i)
     {
-        std::string userName;
-        unsigned int userHackCost{0};
-        std::cin >> userName >> userHackCost;
-        nodeNamesMap.insert({userName, i});
-        weights[i] = userHackCost;
+        std::string personName;
+        unsigned int accountTakenOverCost{0};
+        std::cin >> personName >> accountTakenOverCost;
+        socialNetwork.addPerson(personName, accountTakenOverCost);
     }
 
     unsigned int connectionsCount{0};
@@ -107,22 +58,13 @@ int main()
         std::string from;
         std::string to;
         std::cin >> from >> to;
-        const int fromId{nodeNamesMap.at(from)};
-        const int toId{nodeNamesMap.at(to)};
-        graph[fromId][toId] = weights[toId];
-        graph[toId][fromId] = weights[fromId];
+        socialNetwork.addConnection(from, to);
     }
 
-    auto nodes{findMSTNodes(graph)};
+    const auto [nodes, sum] = socialNetwork.getMSTAndWeight();
     std::cout << nodes.size() << std::endl;
-    int sum{0};
-    for (auto node : nodes)
-    {
-        auto it = std::find_if(std::begin(nodeNamesMap), std::end(nodeNamesMap),
-                               [&](auto&& p) { return p.second == node; });
-        std::cout << it->first << std::endl;
-        sum += weights[node];
-    }
+    for (const auto& node : nodes)
+        std::cout << node << std::endl;
 
     std::cout << sum << std::endl;
 

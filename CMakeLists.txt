@@ -6,6 +6,10 @@ project(minimum-spanning-tree
     DESCRIPTION "Find minimum spanning tree in given social web with weights."
     HOMEPAGE_URL "https://github.com/przemek83/minimum-spanning-tree")
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
 # Gtest / Gmock
 configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)
 
@@ -24,6 +28,8 @@ configure_file(${CMAKE_SOURCE_DIR}/testFile.txt
 
 set(${PROJECT_NAME}_SOURCES
     main.cpp
+    SocialNetwork.cpp
+    SocialNetwork.h
     )
 
 add_executable(${CMAKE_PROJECT_NAME} ${${PROJECT_NAME}_SOURCES})
