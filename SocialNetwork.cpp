@@ -31,7 +31,9 @@ std::pair<std::unordered_set<std::string>, unsigned int>
 SocialNetwork::getMSTAndWeight()
 {
     const unsigned long size{graph_.size()};
-    std::unordered_set<std::string> foundNodes;
+    std::unordered_set<std::string> foundNodes{};
+    if (size <= 0)
+        return {foundNodes, 0U};
 
     std::vector<unsigned int> minEdges(size, INT_MAX);
     minEdges[0] = 0;

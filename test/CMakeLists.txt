@@ -1,7 +1,9 @@
 SET(PROJECT_TEST ${PROJECT_NAME}-test )
 
 set(${PROJECT_TEST}_SOURCES
-    MinimumSpinningTreeTest.cpp
+    SocialNetworkTest.cpp
+    ../SocialNetwork.h
+    ../SocialNetwork.cpp
     )
 
 add_executable(${PROJECT_TEST} ${${PROJECT_TEST}_SOURCES})
