@@ -16,13 +16,16 @@ public:
 
     void addConnection(const std::string& from, const std::string& to);
 
-    std::pair<std::unordered_set<std::string>, unsigned int> getMSTAndWeight();
+    std::pair<std::unordered_set<std::string>, unsigned int> getMSTAndWeight()
+        const;
 
 private:
     unsigned int getMinEdgeIndex(const std::vector<unsigned int>& minEdges,
-                                 const std::vector<bool>& selected);
+                                 const std::vector<bool>& selected) const;
 
-    std::string nodeIdToName(unsigned int nodeId);
+    std::string nodeIdToName(unsigned int nodeId) const;
+
+    unsigned int getWeight(const std::unordered_set<std::string>& nodes) const;
 
     std::unordered_map<std::string, unsigned int> nodeNamesMap_{};
     std::vector<std::vector<unsigned int>> graph_;

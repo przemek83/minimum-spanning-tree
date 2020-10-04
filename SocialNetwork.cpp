@@ -13,7 +13,8 @@ SocialNetwork::SocialNetwork(unsigned int peopleCount)
 void SocialNetwork::addPerson(const std::string& personName,
                               unsigned int accountTakenOverCost)
 {
-    unsigned int nextIndex{static_cast<unsigned int>(nodeNamesMap_.size())};
+    const unsigned int nextIndex{
+        static_cast<unsigned int>(nodeNamesMap_.size())};
     nodeNamesMap_.insert({personName, nextIndex});
     weights_[nextIndex] = accountTakenOverCost;
 }
@@ -28,12 +29,12 @@ void SocialNetwork::addConnection(const std::string& from,
 }
 
 std::pair<std::unordered_set<std::string>, unsigned int>
-SocialNetwork::getMSTAndWeight()
+SocialNetwork::getMSTAndWeight() const
 {
     const unsigned long size{graph_.size()};
-    std::unordered_set<std::string> foundNodes{};
+    std::unordered_set<std::string> nodes{};
     if (size <= 0)
-        return {foundNodes, 0U};
+        return {nodes, 0U};
 
     if (size == 1)
         return {{nodeIdToName(0U)}, weights_[0]};
@@ -49,21 +50,16 @@ SocialNetwork::getMSTAndWeight()
         for (unsigned long v = 0; v < size; ++v)
             if (graph_[u][v] != 0 && !selected[v] && graph_[u][v] < minEdges[v])
             {
-                foundNodes.insert(nodeIdToName(u));
+                nodes.insert(nodeIdToName(u));
                 minEdges[v] = graph_[u][v];
             }
     }
-
-    unsigned int sum{0};
-    for (const auto& node : foundNodes)
-        sum += weights_[nodeNamesMap_.at(node)];
-
-    return {foundNodes, sum};
+    return {nodes, getWeight(nodes)};
 }
 
 unsigned int SocialNetwork::getMinEdgeIndex(
     const std::vector<unsigned int>& minEdges,
-    const std::vector<bool>& selected)
+    const std::vector<bool>& selected) const
 {
     unsigned int minEdge{INT_MAX};
     int minEdgeIndex{-1};
@@ -77,9 +73,20 @@ unsigned int SocialNetwork::getMinEdgeIndex(
     return minEdgeIndex;
 }
 
-std::string SocialNetwork::nodeIdToName(unsigned int nodeId)
+std::string SocialNetwork::nodeIdToName(unsigned int nodeId) const
 {
-    auto it = std::find_if(std::begin(nodeNamesMap_), std::end(nodeNamesMap_),
-                           [&](auto&& p) { return p.second == nodeId; });
+    const auto it =
+        std::find_if(std::begin(nodeNamesMap_), std::end(nodeNamesMap_),
+                     [&](auto&& p) { return p.second == nodeId; });
     return it->first;
+}
+
+unsigned int SocialNetwork::getWeight(
+    const std::unordered_set<std::string>& nodes) const
+{
+    unsigned int sum{0};
+    for (const auto& node : nodes)
+        sum += weights_[nodeNamesMap_.at(node)];
+
+    return sum;
 }
