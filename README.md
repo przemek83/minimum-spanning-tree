@@ -18,7 +18,7 @@ Given social network (graph) with people as nodes. Each person have weight which
 In first line is expected number of people in social network. In following lines names and cost of taking over account (separated by space). After that number of connections and connections itself (one per line, names separated by space).
 
 **Output**:  
-In first line is displayed number of people in minimum spinning tree. In following lines names of people. In last line sum of weighs for minimum spinning tree.
+In first line is displayed number of people in minimum spanning tree. In following lines names of people. In last line sum of weighs for minimum spanning tree.
 
 ## Getting Started
 This section describes briefly how to setup environment and build project.
